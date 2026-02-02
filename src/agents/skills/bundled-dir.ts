@@ -19,13 +19,21 @@ export function resolveBundledSkillsDir(): string | undefined {
     // ignore
   }
 
-  // npm/dev: resolve `<packageRoot>/skills` relative to this module.
+  // npm/dev/prod: resolve `<packageRoot>/skills` relative to this module.
   try {
     const moduleDir = path.dirname(fileURLToPath(import.meta.url));
-    const root = path.resolve(moduleDir, "..", "..", "..");
-    const candidate = path.join(root, "skills");
-    if (fs.existsSync(candidate)) {
-      return candidate;
+
+    // Check various distances from root to accommodate both src/ and dist/ structures
+    const candidates = [
+      path.resolve(moduleDir, "..", "skills"), // dist/
+      path.resolve(moduleDir, "..", "..", "skills"), // dist/subfolder/
+      path.resolve(moduleDir, "..", "..", "..", "skills"), // src/agents/skills/
+    ];
+
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate)) {
+        return candidate;
+      }
     }
   } catch {
     // ignore
