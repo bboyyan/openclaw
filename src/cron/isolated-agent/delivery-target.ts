@@ -44,6 +44,8 @@ export async function resolveDeliveryTarget(
     to?: string;
     accountId?: string;
     sessionKey?: string;
+    /** Explicit accountId from job.delivery — overrides session-derived and binding-derived values. */
+    accountId?: string;
   },
 ): Promise<DeliveryTargetResolution> {
   const requestedChannel = typeof jobPayload.channel === "string" ? jobPayload.channel : "last";
@@ -116,6 +118,11 @@ export async function resolveDeliveryTarget(
     if (boundAccounts && boundAccounts.length > 0) {
       accountId = boundAccounts[0];
     }
+  }
+
+  // job.delivery.accountId takes highest precedence — explicitly set by the job author.
+  if (jobPayload.accountId) {
+    accountId = jobPayload.accountId;
   }
 
   // Carry threadId when it was explicitly set (from :topic: parsing or config)
