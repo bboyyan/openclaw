@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { asFetch } from "../../../../../test/helpers/as-fetch.js";
 import { twilioApiRequest } from "./api.js";
 
 const originalFetch = globalThis.fetch;
-const asFetch = <T extends typeof fetch>(fn: T): typeof fetch => fn as unknown as typeof fetch;
 
 describe("twilioApiRequest", () => {
   afterEach(() => {

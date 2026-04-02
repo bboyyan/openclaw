@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-
-const asFetch = <T extends typeof fetch>(fn: T): typeof fetch => fn as unknown as typeof fetch;
+import { asFetch } from "../../../test/helpers/as-fetch.js";
 
 const {
   loadMSTeamsSdkWithAuthMock,
