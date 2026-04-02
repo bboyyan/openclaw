@@ -202,6 +202,7 @@ export function createOpenClawCodingTools(options?: {
   exec?: ExecToolDefaults & ProcessToolDefaults;
   messageProvider?: string;
   agentAccountId?: string;
+  paperclipRuntimeEnv?: Record<string, string>;
   messageTo?: string;
   messageThreadId?: string | number;
   sandbox?: SandboxContext | null;
@@ -433,6 +434,7 @@ export function createOpenClawCodingTools(options?: {
     currentChannelId: options?.currentChannelId,
     currentThreadTs: options?.currentThreadTs,
     accountId: options?.agentAccountId,
+    paperclipRuntimeEnv: options?.exec?.paperclipRuntimeEnv ?? options?.paperclipRuntimeEnv,
     backgroundMs: options?.exec?.backgroundMs ?? execConfig.backgroundMs,
     timeoutSec: options?.exec?.timeoutSec ?? execConfig.timeoutSec,
     approvalRunningNoticeMs:
